@@ -14,7 +14,7 @@ const Carrossel = () => {
     '/motorola.avif',
     '/samsung.avif',
     '/imagem.webp',
-    '/iphone.jpg'
+    '/iphone.png'
   ]
 
   return (
