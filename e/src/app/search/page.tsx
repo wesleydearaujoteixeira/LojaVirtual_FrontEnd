@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
+
 import Image from 'next/image'
 import Header from '../components/Header'
 import Link from 'next/link'
@@ -61,6 +63,7 @@ const SearchPage = () => {
   }
 
   return (
+    <Suspense fallback={<div className="p-4 text-center">Carregando busca...</div>}>
     <div>
       <Header />
       <h1 className="text-2xl font-bold text-center mt-6 mb-4">
@@ -120,6 +123,7 @@ const SearchPage = () => {
 </div>
 
     </div>
+    </Suspense>
   )
 }
 
