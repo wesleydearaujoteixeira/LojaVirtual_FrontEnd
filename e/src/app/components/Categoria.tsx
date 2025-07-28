@@ -5,22 +5,21 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 const categorias = [
-  { nome: 'AliExpress', img: '/AliExpress.webp' },
-  { nome: 'Casa', img: '/Doméstico.webp' },
-  { nome: 'Automotivos', img: '/ferramentas.webp' },
+  { nome: 'aliExpress', img: '/AliExpress.webp' },
+  { nome: 'casa', img: '/Doméstico.webp' },
+  { nome: 'automotivos', img: '/ferramentas.webp' },
   { nome: 'Eletroportáteis', img: '/eletroportateis.webp' },
-  { nome: 'Brinquedos', img: '/brinquedos.webp' },
-  { nome: 'Ofertas', img: '/ofertas.webp' },
-  { nome: 'Ferramentas', img: '/ferramenta.webp' },
-  { nome: 'Móveis', img: '/sofa.webp' }
+  { nome: 'brinquedos', img: '/brinquedos.webp' },
+  { nome: 'ofertas', img: '/ofertas.webp' },
+  { nome: 'ferramentas', img: '/ferramenta.webp' },
+  { nome: 'moveis', img: '/sofa.webp' }
 ];
 
 const slugify = (texto: string) =>
   texto
     .toLowerCase()
-    .normalize('NFD') // remove acentos
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '-'); // espaços viram hífens
+    .replace(/\s+/g, '-'); 
 
 const Categorias = () => {
   const router = useRouter();

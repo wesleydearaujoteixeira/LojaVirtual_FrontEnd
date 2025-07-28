@@ -6,17 +6,18 @@ import { Produto, Cliente } from '../types/Types'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MoreVertical } from 'lucide-react'
+import { apiBack } from '@/lib/utils'
 
 const MeusProdutos = () => {
   const [produtos, setProdutos] = useState<Produto[]>([])
   const [user, setUser] = useState<Cliente>()
   const [showModal, setShowModal] = useState(false)
   const [selectedProduto, setSelectedProduto] = useState<Produto | null>(null)
-
+  const api = apiBack();
 
 
   const fetchMyProdutos = async (token: string, userId: string | null) => {
-    const res = await fetch(`http://localhost:8080/system/meus_produtos/${userId}`, {
+    const res = await fetch(`${api}/system/meus_produtos/${userId}`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -26,7 +27,7 @@ const MeusProdutos = () => {
 
   const fetchUser = async (token: string, idCliente: string) => {
     if (idCliente) {
-      const response = await fetch(`http://localhost:8080/produtos/encontrar/cliente/${idCliente}`, {
+      const response = await fetch(`${api}/produtos/encontrar/cliente/${idCliente}`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -47,7 +48,7 @@ const MeusProdutos = () => {
 
   const DeleteAproduct = async (id: number, idUser: number | undefined) => {
     const tk = localStorage.getItem('token')
-    const res = await fetch(`http://localhost:8080/system/deletandoProduto/${id}/${idUser}`, {
+    const res = await fetch(`${api}/system/deletandoProduto/${id}/${idUser}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${tk}` },
     })

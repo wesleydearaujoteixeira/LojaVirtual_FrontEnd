@@ -1,5 +1,6 @@
 'use client'
 
+import { apiBack } from '@/lib/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -16,9 +17,11 @@ const RegisterForm = () => {
   const navigate = useRouter()
 
   const RegistrarUsuario = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const response = await fetch(`http://localhost:8080/produtos/cadastrar`, {
+    const api = apiBack();
+
+    const response = await fetch(`${api}/produtos/cadastrar`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +33,7 @@ const RegisterForm = () => {
       const data = await response.json()
 
       toast.success('Sucesso ao registrar um novo usuário!')
-      console.log(data)
+      
 
       localStorage.setItem('id-usuario', data.id)
       navigate.push('/login')

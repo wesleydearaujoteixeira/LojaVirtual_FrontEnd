@@ -1,6 +1,7 @@
 'use client';
 
 import Header from '@/app/components/Header';
+import { apiBack } from '@/lib/utils';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
@@ -17,7 +18,10 @@ const categorias = [
 ];
 
 const AdicionarCategoria = () => {
+  
   const { id } = useParams();
+  const api = apiBack();
+  
   const [nome, setNome] = useState<string>(categorias[0].nome); 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +29,7 @@ const AdicionarCategoria = () => {
     try {
         const tk = localStorage.getItem("token");
 
-    const res = await fetch(`http://localhost:8080/system/category/${id}`, {
+    await fetch(`${api}/system/category/${id}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${tk}`,
@@ -34,8 +38,7 @@ const AdicionarCategoria = () => {
       body: JSON.stringify({ nome })
     });
 
-    const data = await res.json();
-    console.log(data);
+ 
     toast.success("Produto cadastrado a categoria")
     
   }catch (error) {

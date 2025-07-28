@@ -7,7 +7,7 @@ import { Pedido } from '../types/Types';
 import { toast, ToastContainer } from 'react-toastify';
 import { PiTruckBold } from 'react-icons/pi';
 import 'react-toastify/dist/ReactToastify.css';
-import { delay } from '@/lib/utils';
+import { apiBack, delay } from '@/lib/utils';
 
 const statusEtapas = ['Recebido', 'aguardando pagamento', 'organizando', 'Saiu para entrega', 'Entregue'];
 
@@ -21,10 +21,12 @@ const Pedidos = () => {
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(false);
   const [idMercadoPagoId, setMercadoPagoId] = useState<number>();
+  const api = apiBack();
+  
 
   const fetchPedidos = async (token: string, userId: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/pedidos/cliente/${userId}`, {
+      const response = await fetch(`${api}/pedidos/cliente/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -40,7 +42,7 @@ const Pedidos = () => {
 
   const statusPayment = async (idUser: string, idPedido: string) => {
   try {
-    const response = await fetch(`http://localhost:8080/pedidos/${idPedido}/${idUser}/status`, {
+    const response = await fetch(`${api}/pedidos/${idPedido}/${idUser}/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +109,7 @@ const fetchPayment = async (id: number) => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8080/process_payment', {
+      const response = await fetch(`${api}/process_payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,7 +130,6 @@ const fetchPayment = async (id: number) => {
       const data = await response.json();
       setMercadoPagoId(data.id);
       setQrCodeBase64(data.qrCodeBase64);
-      console.log(data);
     } catch (err) {
       console.error('Erro ao criar pagamento Pix:', err);
     } finally {
@@ -141,7 +142,7 @@ const fetchPayment = async (id: number) => {
     if (!window.confirm('Deseja realmente cancelar este pedido?')) return;
 
     try {
-      const response = await fetch(`http://localhost:8080/pedidos/${pedidoId}/${userId}`, {
+      const response = await fetch(`${api}/pedidos/${pedidoId}/${userId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

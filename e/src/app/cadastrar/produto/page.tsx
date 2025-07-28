@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Header from '@/app/components/Header'
 import { ToastContainer, toast } from 'react-toastify'
+import { apiBack } from '@/lib/utils'
 
 const CadastrarProduto = () => {
   const [nome, setNome] = useState('')
@@ -12,6 +13,8 @@ const CadastrarProduto = () => {
   const [imagem, setImagem] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const api = apiBack();
+  
 
   useEffect(() => {
     if (!imagem) return
@@ -42,7 +45,7 @@ const CadastrarProduto = () => {
     if (imagem) formData.append('imagem', imagem)
 
     try {
-      const response = await fetch('http://localhost:8080/produtos/cadastrar_produto', {
+      const response = await fetch(`${api}/produtos/cadastrar_produto`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`
@@ -53,7 +56,6 @@ const CadastrarProduto = () => {
       await response.json()
 
       toast.success('Produto cadastrado com successo')
-      alert('Produto cadastrado com sucesso!')
 
 
       setNome('')

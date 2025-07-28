@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { Categoria, Produto } from '@/app/types/Types';
 import Header from '@/app/components/Header';
 import Link from 'next/link';
+import { apiBack } from '@/lib/utils';
 
 const MAX_DESCRIPTION_LENGTH = 100; // limite de caracteres antes do "ver mais"
 
@@ -14,10 +15,12 @@ const Page = () => {
   const [descricaoExpandida, setDescricaoExpandida] = useState<{ [key: number]: boolean }>({}); // controla descrição expandida por id
   const params = useParams();
   const slug = params?.slug as string;
+  const api = apiBack();
+  
 
   const fetchCategoriesFiltered = async (token: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/system/category/busca/${slug}`, {
+      const response = await fetch(`${api}/system/category/busca/${slug}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,7 +55,7 @@ const Page = () => {
     <>
       <Header />
       <div className="p-6 max-w-6xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4 capitalize">{slug}</h1>
+        <h1 className="text-2xl font-bold mb-4 capitalize"> Categoria selecionada </h1>
 
         {produtos.length === 0 ? (
           <p>Nenhum produto encontrado.</p>

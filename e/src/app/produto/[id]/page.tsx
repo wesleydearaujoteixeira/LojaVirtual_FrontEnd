@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import Header from '../../components/Header'
 import { toast, ToastContainer } from 'react-toastify';
+import { apiBack } from '@/lib/utils'
 
 
 interface Produto {
@@ -18,10 +19,13 @@ interface Produto {
 const MAX_DESC_LENGTH = 150
 
 const UnicoProdutoPage = () => {
+  
   const [produto, setProduto] = useState<Produto>()
   const [quantidade, setQuantidade] = useState<number>(1)
   const [descricaoExpandida, setDescricaoExpandida] = useState(false)
   const [show403Modal, setShow403Modal] = useState(false)
+
+  const api = apiBack();
 
   const params = useParams()
   const id = params?.id
@@ -29,8 +33,10 @@ const UnicoProdutoPage = () => {
   const fetchProduto = async () => {
     const tk = localStorage.getItem('token')
 
+    
+
     try {
-      const response = await fetch(`http://localhost:8080/produtos/produto/${id}`, {
+      const response = await fetch(`${api}/produtos/produto/${id}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${tk}`,
@@ -75,7 +81,7 @@ const UnicoProdutoPage = () => {
   if (!produto || !userId) return
 
   try {
-    const response = await fetch(`http://localhost:8080/produtos/${produto.id}/${quantidade}/${userId}/adicionar`, {
+    const response = await fetch(`${api}/produtos/${produto.id}/${quantidade}/${userId}/adicionar`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${tk}`,
@@ -98,8 +104,7 @@ const UnicoProdutoPage = () => {
         }, 1500)
 
 
-      const data = await response.json();
-      console.log(data);
+      await response.json();
 
     } else {
       const error = await response.text()
@@ -128,7 +133,7 @@ const UnicoProdutoPage = () => {
       >
         ×
       </button>
-      <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">Atenção</h2>
+      <h2 className="text-xl font-bold text-gray-800 mb-4 text-center"> Atenção </h2>
       <p className="text-gray-700 text-center mb-4">
         Você não pode comprar o seu próprio produto.
       </p>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Image from 'next/image'
 import { Cliente } from '../types/Types'
+import { apiBack } from '@/lib/utils'
 
 const EditarPerfil = () => {
   const [user, setUser] = useState<Cliente>()
@@ -13,8 +14,8 @@ const EditarPerfil = () => {
   const [imagem, setImagem] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-
-  // 🔁 Carrega os dados do usuário quando o componente monta
+  const api = apiBack();
+  
   useEffect(() => {
     const token = localStorage.getItem('token')
     const usuarioId = localStorage.getItem('id-usuario')
@@ -24,7 +25,6 @@ const EditarPerfil = () => {
     }
   }, [])
 
-  // ✅ Sincroniza os dados do cliente com os inputs
   useEffect(() => {
     if (user) {
       setNome(user.nome)
@@ -33,7 +33,6 @@ const EditarPerfil = () => {
     }
   }, [user])
 
-  // 📷 Gera preview da imagem
   useEffect(() => {
     if (!imagem) return
 
@@ -46,7 +45,7 @@ const EditarPerfil = () => {
   // 📦 Buscar dados do cliente pelo ID do usuário
   const fetchUser = async (token: string, usuarioId: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/produtos/encontrar/cliente/${usuarioId}`, {
+      const response = await fetch(`${api}/produtos/encontrar/cliente/${usuarioId}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -82,7 +81,7 @@ const EditarPerfil = () => {
     if (imagem) formData.append('imagem', imagem)
 
     try {
-      const response = await fetch('http://localhost:8080/produtos/atualizar/cliente', {
+      const response = await fetch(`${api}/produtos/atualizar/cliente`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -95,8 +94,6 @@ const EditarPerfil = () => {
         throw new Error(`Erro ${response.status}: ${errorText}`)
       }
 
-      const data = await response.json()
-      console.log('Sucesso:', data)
       alert('Cliente atualizado com sucesso!')
       location.reload()
     } catch (error) {

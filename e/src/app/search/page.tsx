@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Header from '../components/Header'
 import Link from 'next/link'
+import { apiBack } from '@/lib/utils'
 
 interface Produto {
   id: number
@@ -17,11 +18,14 @@ interface Produto {
 const MAX_DESC_LENGTH = 100
 
 const SearchPage = () => {
+  
   const searchParams = useSearchParams()
   const termo = searchParams.get('q') || ''
   const [produtos, setProdutos] = useState<Produto[]>([])
   const [loading, setLoading] = useState(false)
   const [descricaoExpandida, setDescricaoExpandida] = useState<{ [key: number]: boolean }>({})
+  const api = apiBack();
+
 
   useEffect(() => {
     if (!termo) return
@@ -31,7 +35,7 @@ const SearchPage = () => {
 
       setLoading(true)
       try {
-        const response = await fetch(`http://localhost:8080/produtos/search/${termo}`, {
+        const response = await fetch(`${api}/produtos/search/${termo}`, {
           headers: {
             Authorization: `Bearer ${tk}`
           }

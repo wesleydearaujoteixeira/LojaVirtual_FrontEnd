@@ -9,11 +9,14 @@ import { TiShoppingCart } from 'react-icons/ti'
 import { useRouter } from 'next/navigation'
 import { Carrinho, Cliente } from '../types/Types'
 import { ShoppingCart } from 'lucide-react'
+import { apiBack } from '@/lib/utils'
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [user, setUser] = useState<Cliente | null>(null)
-  const navigation = useRouter()
+  const navigation = useRouter();
+  const api = apiBack();
+  
 
 
   const [carrinho, setCarrinho] = useState<Carrinho[]>([]);
@@ -23,7 +26,7 @@ const Header = () => {
 
     if(idCliente){
       
-      const response = await fetch(`http://localhost:8080/produtos/encontrar/cliente/${idCliente}`, {
+      const response = await fetch(`${api}/produtos/encontrar/cliente/${idCliente}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -32,7 +35,6 @@ const Header = () => {
 
 
       const data = await response.json()
-      console.log('Usuário encontrado:', data);
 
       if(response.status == 404){
         console.log(" Você não possui um perfil ainda! ");
@@ -49,7 +51,7 @@ const Header = () => {
 
     if(idUser){
       
-      const response = await fetch(`http://localhost:8080/produtos/carrinho/${idUser}`, {
+      const response = await fetch(`${api}/produtos/carrinho/${idUser}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,7 +59,6 @@ const Header = () => {
       });
 
       const data = await response.json()
-      console.log('Usuário encontrado:', data);
       setCarrinho(data);
 
       if(response.status == 404){
@@ -77,9 +78,6 @@ const Header = () => {
     const token = localStorage.getItem('token')
     const idUser = localStorage.getItem('id-usuario');
 
-
-    console.log(" Token " + token);
-    console.log(" Usuário " + idUser);
 
     if (!token) {
       navigation.push('/login')

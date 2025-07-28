@@ -11,3 +11,7 @@ export const delay = (time: number) => {
           location.reload();
         }, time)
 }
+
+export const apiBack = () => {
+  return process.env.NEXT_PUBLIC_API_BACKEND;
+}

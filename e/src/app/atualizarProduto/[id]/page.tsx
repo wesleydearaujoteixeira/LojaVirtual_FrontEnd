@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Header from '@/app/components/Header'
 import { useParams } from 'next/navigation'
 import { Produto } from '@/app/types/Types'
+import { apiBack } from '@/lib/utils'
 
 const AtualizarProduto = () => {
 
@@ -15,6 +16,8 @@ const AtualizarProduto = () => {
   const [imagem, setImagem] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const api = apiBack();
+  
 
   const [produto, setProduto] = useState<Produto>();
 
@@ -27,7 +30,7 @@ const AtualizarProduto = () => {
   const tk = localStorage.getItem('token')
 
   try {
-    const response = await fetch(`http://localhost:8080/produtos/produto/${id}`, {
+    const response = await fetch(`${api}/produtos/produto/${id}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${tk}`,
@@ -88,7 +91,7 @@ useEffect(() => {
     if (imagem) formData.append('imagem', imagem)
 
     try {
-      const response = await fetch('http://localhost:8080/produtos/atualizar_produto', {
+      const response = await fetch(`${api}/produtos/atualizar_produto`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`

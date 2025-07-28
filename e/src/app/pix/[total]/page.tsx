@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import { apiBack } from '@/lib/utils';
 
 const PixPagamento = () => {
   const [qrCodeBase64, setQrCodeBase64] = useState('');
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(true);
+  const api = apiBack();
 
   const searchParams = useParams();
   const totalDoValor = searchParams?.total;
@@ -32,7 +34,7 @@ const PixPagamento = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:8080/process_payment', {
+        const response = await fetch(`${api}/process_payment`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -55,8 +57,7 @@ const PixPagamento = () => {
         });
 
         const data = await response.json();
-        console.log("Status HTTP:", response.status);
-        console.log("Resposta da API:", data);
+
 
         if (!response.ok) {
           console.error("Erro ao criar pagamento:", data);

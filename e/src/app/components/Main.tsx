@@ -7,16 +7,19 @@ import Spinner from './Spinner'
 import Link from 'next/link'
 import Carrossel from './Carrosel'
 import Categorias from './Categoria'
+import { apiBack } from '@/lib/utils'
 
 const Main = () => {
   const [produtos, setProdutos] = useState<Produto[]>([])
   const [loading, setLoading] = useState(true)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [visibleCount, setVisibleCount] = useState(8)
+  const api = apiBack();
+  
 
   const fetchProdutos = async (token: string, idUser: string) => {
     try {
-      const response = await fetch(`http://localhost:8080/produtos/av1/${idUser}`, {
+      const response = await fetch(`${api}/produtos/av1/${idUser}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`

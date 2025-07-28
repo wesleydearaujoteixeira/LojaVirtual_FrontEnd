@@ -6,7 +6,8 @@ import Image from 'next/image';
 import Header from '../components/Header';
 import { FiTrash } from 'react-icons/fi';
 import { ToastContainer, toast } from 'react-toastify';
-import { delay } from '@/lib/utils';
+import { apiBack, delay } from '@/lib/utils';
+const api = apiBack();
 
 
 const Carrinhos = () => {
@@ -15,7 +16,7 @@ const Carrinhos = () => {
   const total = carrinho.reduce((acc, item) => acc + item.produto.price * item.quantidade, 0);
 
   const fetchCart = async (token: string, idUser: string) => {
-    const response = await fetch(`http://localhost:8080/system/carrinhoList/${idUser}`, {
+    const response = await fetch(`${api}/system/carrinhoList/${idUser}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     const data = await response.json();
@@ -29,7 +30,7 @@ const Carrinhos = () => {
       const tk = localStorage.getItem("token");
 
       try {
-        const response = await fetch(`http://localhost:8080/system/${idUser}/remover-item/${itemId}`, {
+        const response = await fetch(`${api}/system/${idUser}/remover-item/${itemId}`, {
           method: 'DELETE',
           headers: { Authorization: `Bearer ${tk}` }
         });
@@ -55,7 +56,7 @@ const Carrinhos = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/system/zerar/${idUser}`, {
+      const response = await fetch(`${api}/system/zerar/${idUser}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -72,49 +73,11 @@ const Carrinhos = () => {
     }
   };
 
-
-
-     
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     const idUser = localStorage.getItem("id-usuario");
     if (token && idUser) fetchCart(token, idUser);
   }, []);
-
-// const PagamentoService = async () => {
-//   const token = localStorage.getItem("token");
-//   const idUser = localStorage.getItem("id-usuario");
-
-//   if (!token || !idUser) return;
-
-//   try {
-//     const res = await fetch(`http://localhost:8080/system/pedidos/${idUser}`, {
-//       method: 'POST',
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({
-//         status: 'efetuado'
-//       })
-//     });
-
-//     if (res.ok) {
-//       console.log("Pedido criado com sucesso");
-//       localStorage.setItem("aprovado", "approved"); 
-//       await zerarCarrinho();
-//       setIsPixModalOpen(false); 
-//     } else {
-//       console.log("Erro ao criar pedido");
-//     }
-//   } catch (error) {
-//     console.error("Erro na criação do pedido:", error);
-//   }
-// };
-
-
-
 
 
 const FazerPedido = async () => {
@@ -129,7 +92,7 @@ const FazerPedido = async () => {
   }));
 
   try {
-    const res = await fetch(`http://localhost:8080/pedidos/${idUser}`, {
+    const res = await fetch(`${api}/pedidos/${idUser}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -142,12 +105,7 @@ const FazerPedido = async () => {
       
       
       toast.success("Pedido criado com sucesso");
-      const data = await res.json();
-      console.log(data);
 
-
-      //localStorage.setItem("aprovado", "approved"); 
-      //await zerarCarrinho();
     } else {
       console.log("Erro ao criar pedido");
     }

@@ -1,5 +1,6 @@
 'use client'
 
+import { apiBack } from '@/lib/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -16,7 +17,9 @@ const LoginForm = () => {
   const Login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const response = await fetch(`http://localhost:8080/produtos/login`, {
+    const api = apiBack();
+
+    const response = await fetch(`${api}/produtos/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +30,6 @@ const LoginForm = () => {
     if (response.status == 200) {
       const data = await response.json()
       toast.success('Sucesso ao logar!')
-      console.log(data)
 
       localStorage.setItem('token', data.token)
       localStorage.setItem('id-usuario', data.id)

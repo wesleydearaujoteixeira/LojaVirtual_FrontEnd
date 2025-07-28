@@ -3,6 +3,8 @@
 import React, { useState } from 'react'
 import Header from '../components/Header'
 import Image from 'next/image'
+import { apiBack } from '@/lib/utils'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Perfil = () => {
 
@@ -30,7 +32,7 @@ const Perfil = () => {
   const token = localStorage.getItem("token");
 
   if (!idUser || !token) {
-    alert('Usuário não autenticado')
+    toast.error('Usuário não autenticado')
     setLoading(false)
     return;
   }
@@ -41,6 +43,8 @@ const Perfil = () => {
   formData.append('nome', nome)
   formData.append('cpf', cpf)
   formData.append('endereco', endereco)
+  const api = apiBack();
+  
 
 
   if (imagem) formData.append('imagem', imagem)
@@ -48,7 +52,7 @@ const Perfil = () => {
     console.log("Token é esse " + token);
 
   try {
-    const response = await fetch('http://localhost:8080/produtos/create/cliente', {
+    const response = await fetch(`${api}/produtos/create/cliente`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -65,7 +69,7 @@ const Perfil = () => {
     console.log('Sucesso:', data);
     location.reload();
 
-    alert('Cliente cadastrado com sucesso!');
+    toast.success('Cliente cadastrado com sucesso!');
   } catch (error) {
     console.error('Erro:', error);
     alert(`Erro ao cadastrar cliente. ${error}`);
@@ -77,6 +81,8 @@ const Perfil = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <Header />
       <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
         <h2 className="text-2xl font-bold mb-4 text-orange-400">Perfil do Cliente</h2>
