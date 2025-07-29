@@ -107,9 +107,7 @@ const FazerPedido = async () => {
     if (res.ok) {
       
       toast.success("Pedido criado com sucesso");
-      const data = await res.json();
-      console.log("Pedido feito: ");
-      console.log(data);
+      await res.json();
 
     } else {
       console.log("Erro ao criar pedido");
