@@ -153,7 +153,7 @@ const fetchPayment = async (id: number) => {
       const data = await response.json(); 
       console.log(data);
 
-      setPedidos((prev) => prev.filter((p) => p.id !== pedidoId));
+      location.reload();
     } catch (e) {
         console.log(e + "Erro aqui ");
     }
