@@ -33,8 +33,6 @@ const Pedidos = () => {
       if (!response.ok) throw new Error('Erro ao buscar o pedido.');
       const data = await response.json();
       setPedidos(data);
-      console.log("Pedidos em baixo: ")
-      console.log(data);
     } catch (error) {
       console.error('Erro ao buscar pedidos:', error);
     }
@@ -85,7 +83,6 @@ const fetchPayment = async (id: number) => {
     setStatus(data.status);
 
     const id_pedidos = localStorage.getItem("id-pedido");
-    console.log("id do pedido " + id_pedidos);
 
     if (data.status === "approved" && !hasUpdatedStatus) {
       setHasUpdatedStatus(true);
