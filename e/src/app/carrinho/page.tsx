@@ -81,6 +81,7 @@ const Carrinhos = () => {
 
 
 const FazerPedido = async () => {
+  
   const token = localStorage.getItem("token");
   const idUser = localStorage.getItem("id-usuario");
 

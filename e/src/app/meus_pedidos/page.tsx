@@ -85,6 +85,7 @@ const fetchPayment = async (id: number) => {
     setStatus(data.status);
 
     const id_pedidos = localStorage.getItem("id-pedido");
+    console.log("id do pedido " + id_pedidos);
 
     if (data.status === "approved" && !hasUpdatedStatus) {
       setHasUpdatedStatus(true);
@@ -172,10 +173,7 @@ const fetchPayment = async (id: number) => {
     const id = localStorage.getItem('id-usuario');
     const tk = localStorage.getItem('token');
 
-   const idPedido = localStorage.getItem('id-pedido')
-
-
-    if (id && tk && idPedido) {
+    if (id && tk) {
       setUserId(id);
       setToken(tk);
       fetchPedidos(tk, id);
