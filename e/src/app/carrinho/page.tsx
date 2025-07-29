@@ -84,7 +84,9 @@ const FazerPedido = async () => {
   const token = localStorage.getItem("token");
   const idUser = localStorage.getItem("id-usuario");
 
-  if (!token || !idUser) return;
+  if (!token || !idUser) {
+    console.log(" N tem token e nem usuário! ");
+  }
 
   const itensParaApi = carrinho.map(item => ({
     produtoId: item.produto.id,
@@ -103,8 +105,10 @@ const FazerPedido = async () => {
 
     if (res.ok) {
       
-      
       toast.success("Pedido criado com sucesso");
+      const data = await res.json();
+      console.log("Pedido feito: ");
+      console.log(data);
 
     } else {
       console.log("Erro ao criar pedido");
@@ -171,7 +175,6 @@ const FazerPedido = async () => {
             </button>
 
             <button
-              //onClick={() => setIsPixModalOpen(true)}
               onClick={() => FazerPedido()}
               className="mt-4 bg-green-700 hover:bg-green-800 text-white font-medium px-6 py-3 cursor-pointer rounded-lg shadow-md transition-all duration-300 ease-in-out w-full md:w-auto"
             >
