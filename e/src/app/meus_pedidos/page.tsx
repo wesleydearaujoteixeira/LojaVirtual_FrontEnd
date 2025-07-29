@@ -33,6 +33,8 @@ const Pedidos = () => {
       if (!response.ok) throw new Error('Erro ao buscar o pedido.');
       const data = await response.json();
       setPedidos(data);
+      console.log("Pedidos em baixo: ")
+      console.log(data);
     } catch (error) {
       console.error('Erro ao buscar pedidos:', error);
     }
