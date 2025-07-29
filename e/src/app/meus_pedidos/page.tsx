@@ -209,10 +209,8 @@ const fetchPayment = async (id: number) => {
           <PiTruckBold size={30} /> Meus Pedidos
         </h2>
 
-        {pedidos.length === 0 ? (
-          <p className="text-center text-gray-600 mt-4">Você ainda não possui pedidos.</p>
-        ) : (
-          pedidos.map((pedido) => (
+        
+         {pedidos.map((pedido) => (
             <div key={pedido.id} className="bg-white rounded-xl shadow p-6 mt-6">
               <div className="flex flex-col md:flex-row justify-between gap-4">
                 <div>
@@ -281,8 +279,7 @@ const fetchPayment = async (id: number) => {
                 ))}
               </div>
             </div>
-          ))
-        )}
+          ))}
 
   {isPixModalOpen && (
   <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 animate-fadeIn">
