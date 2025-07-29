@@ -154,8 +154,8 @@ const fetchPayment = async (id: number) => {
       console.log(data);
 
       setPedidos((prev) => prev.filter((p) => p.id !== pedidoId));
-    } catch {
-      toast.error('Erro ao cancelar pedido.');
+    } catch (e) {
+        console.log(e + "Erro aqui ");
     }
   };
 
