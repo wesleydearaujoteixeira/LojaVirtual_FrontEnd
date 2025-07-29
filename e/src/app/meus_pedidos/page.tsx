@@ -150,10 +150,9 @@ const fetchPayment = async (id: number) => {
       if (!response.ok) throw new Error();
       toast.success('Pedido cancelado com sucesso!');
       
-      const data = await response.json(); 
-      console.log(data);
+      console.log('deletado');
 
-      location.reload();
+      setPedidos((prev) => prev.filter((p) => p.id !== pedidoId));
     } catch (e) {
         console.log(e + "Erro aqui ");
     }
