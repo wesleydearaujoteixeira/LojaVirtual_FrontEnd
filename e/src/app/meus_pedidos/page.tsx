@@ -141,9 +141,7 @@ const fetchPayment = async (id: number) => {
   };
 
   const cancelarPedido = async (pedidoId: number) => {
-    if (!userId || !token) return;
-    if (!window.confirm('Deseja realmente cancelar este pedido?')) return;
-
+  
     try {
       const response = await fetch(`${api}/pedidos/${pedidoId}/${userId}`, {
         method: 'DELETE',
