@@ -105,9 +105,10 @@ const Header = () => {
   return (
     <header className="bg-blue-800 text-white w-full">
       <div className="px-2 sm:px-9 h-auto py-2 flex flex-wrap justify-between items-center gap-4">
+
         <div>
           <Link href="/">
-            <Image src="/logo1.png" height={120} width={120} alt="logo" priority />
+            <Image src="/logo1.png" height={100} width={100} alt="logo" priority />
           </Link>
         </div>
 
@@ -128,7 +129,7 @@ const Header = () => {
               )}
             </Link>
 
-            {/* Botão hamburguer */}
+            
             <button onClick={() => setMenuOpen(!menuOpen)} className="flex flex-col gap-1 cursor-pointer">
               <span className="w-6 h-0.5 bg-white"></span>
               <span className="w-6 h-0.5 bg-white"></span>
