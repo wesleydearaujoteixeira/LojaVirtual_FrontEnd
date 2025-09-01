@@ -27,6 +27,7 @@ const Carrossel = () => {
       spaceBetween={30}
       slidesPerView={1}
       style={{ width: '1000px', height: '300px' }}
+      
     >
       {images.map((src, index) => (
         <SwiperSlide key={index}>
